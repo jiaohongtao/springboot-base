@@ -16,7 +16,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 @Configuration
 public class QuartzStartListener implements ApplicationListener<ContextRefreshedEvent> {
     @Autowired
-    private QuartzScheduler quartzScheduler;
+    private QuartzSchedulerUtil quartzScheduler;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {

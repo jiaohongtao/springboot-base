@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 // @Component
 @Configuration
-public class QuartzScheduler {
+public class QuartzSchedulerUtil {
 
     private static final String JOB_NAME = "inspect_report";
     private static final String JOB_GROUP = "inspect_report_group";

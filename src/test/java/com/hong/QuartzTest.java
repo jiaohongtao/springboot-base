@@ -1,11 +1,13 @@
 package com.hong;
 
 import com.hong.scheduler.CronUtil;
-import com.hong.scheduler.QuartzScheduler;
+import com.hong.scheduler.QuartzSchedulerUtil;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,11 +18,12 @@ import java.util.Date;
  * @version 1.0
  * @since 2020年11月04日
  */
-@SpringBootTest
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class QuartzTest {
 
     @Autowired
-    QuartzScheduler quartzScheduler;
+    QuartzSchedulerUtil quartzScheduler;
     @Test
     public void test1() {
         // Date date = new Date();

@@ -2,7 +2,7 @@ package com.hong.controller;
 
 import com.hong.bean.Result;
 import com.hong.scheduler.CronUtil;
-import com.hong.scheduler.QuartzScheduler;
+import com.hong.scheduler.QuartzSchedulerUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.quartz.SchedulerException;
@@ -24,7 +24,7 @@ import java.util.Date;
 public class QuartzController {
 
     @Autowired
-    QuartzScheduler quartzScheduler;
+    QuartzSchedulerUtil quartzScheduler;
 
     @GetMapping("/addQuartz")
     @ApiOperation(value = "添加任务", httpMethod = "GET")

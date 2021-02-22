@@ -1,18 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>身份证年龄计算</title>
+    <!-- 为什么jquery加上版本号就不行呢！！ 3.5.1 -->
+    <script th:src="@{/js/jquery.js}"></script>
+    <!--<script src="/hi/js/jquery.js"></script>-->
 </head>
 <body>
 <div style="text-align: center">
     <h1>获取身份证信息</h1>
     <input id="idNumber" placeholder="请输入身份证号码"/>
-    <button onclick="getAge()">获取年龄</button>
+    获取:
+    <button onclick="getAge()">年龄</button>
     <!--<button onclick="getProvince()">获取省出生地</button>-->
-    <button onclick="getCityOrProvince('province')">获取省出生地</button>
-    <button onclick="getCityOrProvince('city')">获取县（区）出生地</button>
-    <button onclick="getSex()">获取性别</button>
+    <button onclick="getCityOrProvince('province')">省出生地</button>
+    <button onclick="getCityOrProvince('city')">县（区）</button>
+    <button onclick="getProvinceCity()">省市县</button>
+    <button onclick="getSex()">性别</button>
+    <p id="content"></p>
 </div>
 <script type="application/javascript">
     let idNumberInput = document.getElementById("idNumber")
@@ -34,6 +40,26 @@
         }
         // window.document.location.href = getRootPath() + "/idCard/province/" + idNumber
         window.document.location.href = getRootPath() + "/idCard/cityOrProvince/" + idNumber + "/0"
+    }
+
+    function getProvinceCity() {
+        let idNumber = idNumberInput.value
+        if (!idNumber) {
+            idNumberFocus();
+            return;
+        }
+        $.get({
+            url: getRootPath() + "/idCard/cityOrProvince/" + idNumber,
+            success: function (data) {
+                $("#content").text(data)
+            }
+        })
+        /*let idNumber = idNumberInput.value
+        if (!idNumber) {
+            idNumberFocus();
+            return;
+        }
+        window.document.location.href = getRootPath() + "/idCard/cityOrProvince/" + idNumber*/
     }
 
     // function getCity(city) {

@@ -154,12 +154,46 @@ public class IDCardUtil {
         return type == 0 ? "目前只允许查询中国境内的市，你是中国的吗，呜呜" : "目前只允许查询河北省内的县/区，呜呜";
     }
 
+    /**
+     * 根据身份证号获取省/县
+     *
+     * @param idNumber 身份证号
+     * @return 城市
+     */
+    public static String getCity(String idNumber) {
+        String idNum = idNumber.substring(0, 6);
+        String path = "static/all-city-false.txt";
+        ClassPathResource classPathResource = new ClassPathResource(path);
+        try {
+            InputStream inputStream = classPathResource.getInputStream();
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(bufferedInputStream));
+            String area = "";
+            while (bufferedReader.ready()) {
+                String addresses = bufferedReader.readLine();
+                if ("".equals(addresses)) {
+                    continue;
+                }
+                String[] split = addresses.split(" ");
+                if (idNum.equals(split[0])) {
+                    area = split[1];
+                    break;
+                }
+            }
+            return "".equals(area) ? "外星人？" : area;
+        } catch (IOException e) {
+            log.error("未知异常：", e);
+            return "未知错误";
+        }
+    }
+
     public static void main(String[] args) {
         /*String idNumber = "130527199606212014";
         System.out.println(judgeGender(idNumber));
         System.out.println(countAge(idNumber));*/
         // System.out.println(HttpClientUitl.doHttpGet("http://www.syx7.com/Citydm.asp", new ArrayList<>()));
 
-        System.out.println(getProvince("130**************4"));
+        // System.out.println(getProvince("130**************4"));
+        System.out.println(getCity("930527199606212014"));
     }
 }

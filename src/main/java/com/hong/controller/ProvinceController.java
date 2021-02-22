@@ -29,6 +29,12 @@ public class ProvinceController {
         return IDCardUtil.getCityOrProvince(idNumber, type);
     }
 
+    @ApiOperation(value = "省市县地区", httpMethod = "GET")
+    @GetMapping("/cityOrProvince/{idNumber}")
+    public String getCity(@PathVariable String idNumber) {
+        return IDCardUtil.getCity(idNumber);
+    }
+
     @ApiOperation(value = "性别", httpMethod = "GET")
     @GetMapping("/sex/{idNumber}")
     public String getSex(@PathVariable String idNumber) {

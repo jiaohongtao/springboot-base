@@ -23,4 +23,10 @@ public class PageController {
     public String idCard() {
         return "idCard";
     }
+
+    @ApiOperation(value = "上传文件页面", httpMethod = "GET")
+    @GetMapping("/file")
+    public String file() {
+        return "fileRead";
+    }
 }

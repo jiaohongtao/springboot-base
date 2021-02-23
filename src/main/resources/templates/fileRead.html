@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>读取文件</title>
+    <script th:src="@{/js/jquery.js}"></script>
+    <style>
+        .submitBtn {
+            padding: 4px 8px;
+            background: rgb(92, 184, 92);
+            color: white;
+            outline: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #content {
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+<input type="file" id="fileName"/>
+<button class="submitBtn" onclick="submitFile()">读取文件</button>
+<br>
+<br>
+<hr>
+<p id="content"></p>
+
+<script type="text/javascript">
+    function submitFile() {
+        let formData = new FormData();
+        let file = $("#fileName")[0].files[0];
+        // console.log(file);
+        formData.append("fileName", file);
+        $.post({
+            url: "/hi/file/read",
+            data: formData,
+            // dataType: "json",
+            processData: false, // 告诉jQuery不要去处理发送的数据
+            contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+            success: function (res) {
+                if (res.success) {
+                    $("#content").text(res.data)
+                } else {
+                    console.log(res)
+                }
+            },
+            error: function () {
+                alert("服务器异常")
+            }
+        })
+    }
+</script>
+</body>
+</html>

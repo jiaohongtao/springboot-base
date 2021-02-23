@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>功能说明</title>
@@ -28,6 +28,9 @@
     </div>
     <div class="submitButton">
         <a id="idCard" class="aLink" href="javascript:void(0);">获取身份证信息</a>
+    </div>
+    <div class="submitButton">
+        <a id="fileRead" class="aLink" th:href="@{/page/file}">文件读取</a>
     </div>
 </div>
 </body>

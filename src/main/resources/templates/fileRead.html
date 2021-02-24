@@ -18,15 +18,41 @@
         #content {
             white-space: pre-wrap;
         }
+
+        #personTable tr td {
+            max-width: 260px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /*#personTable tr td:hover {
+            text-overflow: inherit;
+            overflow: visible;
+        }*/
     </style>
 </head>
 <body>
 <input type="file" id="fileName"/>
 <button class="submitBtn" onclick="submitFile()">读取文件</button>
+
+<button class="submitBtn" onclick="analyzeIdCard()">读取并识别身份证地址</button>
 <br>
 <br>
 <hr>
 <p id="content"></p>
+<table id="personTable">
+    <!--<tr>
+        <th>姓名</th>
+        <th>地址</th>
+        <th>IDNumber</th>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>-->
+</table>
 
 <script type="text/javascript">
     function submitFile() {
@@ -43,6 +69,45 @@
             success: function (res) {
                 if (res.success) {
                     $("#content").text(res.data)
+                } else {
+                    console.log(res)
+                }
+            },
+            error: function () {
+                alert("服务器异常")
+            }
+        })
+    }
+
+    function analyzeIdCard() {
+        let formData = new FormData();
+        let file = $("#fileName")[0].files[0];
+        formData.append("fileName", file);
+        $.post({
+            url: "/hi/file/idCard/analyze",
+            data: formData,
+            // dataType: "json",
+            processData: false, // 告诉jQuery不要去处理发送的数据
+            contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+            success: function (res) {
+                if (res.success) {
+                    // $("#content").text(data)
+                    let personTable = "<tr>\n" +
+                        "        <th>姓名</th>\n" +
+                        "        <th>地址</th>\n" +
+                        "        <th>IDNumber</th>\n" +
+                        "    </tr>\n";
+                    let data = res.data;
+                    for (let i = 0; i < data.length; i++) {
+                        let datum = data[i];
+                        // console.log(datum.name + " " + datum.city + " " + datum.idCard)
+                        personTable += "<tr>\n" +
+                            "        <td>" + datum.name + "</td>\n" +
+                            "        <td title='" + datum.city + "'>" + datum.city + "</td>\n" +
+                            "        <td>" + datum.idCard + "</td>\n" +
+                            "    </tr>\n";
+                    }
+                    $("#personTable").html(personTable)
                 } else {
                     console.log(res)
                 }

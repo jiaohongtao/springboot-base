@@ -20,20 +20,26 @@ import java.util.concurrent.TimeUnit;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RedisTest {
 
-    @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    // @Autowired
+    // private RedisTemplate<String, Object> redisTemplate;
     /*@Autowired
     private RedisUtil redisUtil;*/
 
-    @Test
-    public void testRedis() {
-        ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
-
-        valueOperations.set("a", "b", 30, TimeUnit.SECONDS);
-        /*// Object abcd = redisUtil.get("abcd");
-        System.out.println(abcd);*/
-        System.out.println(valueOperations.get("a"));
-        Long time = redisTemplate.getExpire("a");
-        System.out.println(time);
-    }
+    // @Test
+    // public void testRedis() {
+    //     ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
+//
+    //     valueOperations.set("a", "b", 30, TimeUnit.SECONDS);
+    //     /*// Object abcd = redisUtil.get("abcd");
+    //     System.out.println(abcd);*/
+    //     System.out.println(valueOperations.get("a"));
+    //     Long time = redisTemplate.getExpire("a");
+    //     System.out.println(time);
+    //     try {
+    //         TimeUnit.SECONDS.sleep(30);
+    //         System.out.println(valueOperations.get("a"));
+    //     } catch (InterruptedException e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 }

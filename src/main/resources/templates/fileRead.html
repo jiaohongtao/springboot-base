@@ -19,11 +19,36 @@
             white-space: pre-wrap;
         }
 
+        #personTable {
+            border-collapse: collapse;
+            font-family: Verdana, serif;
+        }
+
+        #personTable thead tr {
+            border-top-width: 1px;
+            border-top-style: solid;
+            border-top-color: #D3B0FF;
+        }
+
+        #personTable tr {
+            border-top-width: 1px;
+            border-top-style: solid;
+            border-top-color: #D3B0FF;
+        }
+
         #personTable tr td {
             max-width: 260px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+        }
+
+        #personTable tr:nth-child(even) {
+            background: #D3E0FF;
+        }
+
+        #personTable tr:nth-child(odd) {
+            background: #FEFEFE;
         }
 
         /*#personTable tr td:hover {
@@ -92,11 +117,11 @@
             success: function (res) {
                 if (res.success) {
                     // $("#content").text(data)
-                    let personTable = "<tr>\n" +
+                    let personTable = "<thead><tr>\n" +
                         "        <th>姓名</th>\n" +
                         "        <th>地址</th>\n" +
                         "        <th>IDNumber</th>\n" +
-                        "    </tr>\n";
+                        "    </tr></thead>\n";
                     let data = res.data;
                     for (let i = 0; i < data.length; i++) {
                         let datum = data[i];

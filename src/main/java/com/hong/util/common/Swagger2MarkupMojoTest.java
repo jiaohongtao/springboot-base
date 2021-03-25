@@ -241,9 +241,9 @@ public class Swagger2MarkupMojoTest {
         return FileUtils.listFiles(dir, null, recursive).stream().map(File::getName).collect(Collectors.toList());
     }
 
-    private static void verifyFileContains(File file, String value) throws IOException {
+    /*private static void verifyFileContains(File file, String value) throws IOException {
         assertThat(IOUtils.toString(file.toURI(), StandardCharsets.UTF_8)).contains(value);
-    }
+    }*/
 
     private static String replaceLast(String input, String search, String replace) {
         int lastIndex = input.lastIndexOf(search);

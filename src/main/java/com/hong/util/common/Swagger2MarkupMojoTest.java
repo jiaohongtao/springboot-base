@@ -242,7 +242,7 @@ public class Swagger2MarkupMojoTest {
     }
 
     private static void verifyFileContains(File file, String value) throws IOException {
-        assertThat(IOUtils.toString(file.toURI(), StandardCharsets.UTF_8)).contains(value);
+        assertThat(IOUtils.toString(file.toURI(), "UTF-8")).contains(value);
     }
 
     private static String replaceLast(String input, String search, String replace) {

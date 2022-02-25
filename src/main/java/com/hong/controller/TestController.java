@@ -3,7 +3,10 @@ package com.hong.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Arrays;
 
 /**
  * @author jiaohongtao
@@ -35,5 +38,10 @@ public class TestController {
 	@ApiOperation(value = "testO")
 	public String testO() {
 		return "testO";
+	}
+
+	@GetMapping("test/{ids}")
+	public String getIds(@PathVariable Long[] ids) {
+		return Arrays.toString(ids);
 	}
 }

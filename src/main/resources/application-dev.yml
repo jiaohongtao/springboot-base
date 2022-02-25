@@ -20,6 +20,20 @@ spring:
       # 监听目录
       additional-paths: src/main/java
 
+  redis:
+    host: 127.0.0.1
+    password: 12345678
+    port: 6379
+    database: 0
+    # 30 分钟
+    timeout: 1800000
+    lettuce:
+      pool:
+        max-active: 20
+        max-wait: -1
+        max-idle: 5
+        min-idle: 0
+
   # # redis配置
   # redis:
   #   # Redis数据库索引（默认为0）

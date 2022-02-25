@@ -1,4 +1,4 @@
-//package com.hong.config;
+package com.hong.config;
 //
 //import com.fasterxml.jackson.annotation.JsonAutoDetect;
 //import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -19,7 +19,7 @@
 // * @since 2021年02月02日
 // */
 //// @Configuration
-//public class RedisConfig {
+public class RedisConfig {
 //    @Bean
 //    @SuppressWarnings("all")
 //    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
@@ -42,4 +42,4 @@
 //        template.afterPropertiesSet();
 //        return template;
 //    }
-//}
+}

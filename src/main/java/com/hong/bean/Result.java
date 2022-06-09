@@ -21,7 +21,7 @@ public class Result {
     // private int code;
 
     public static Result success(Object data) {
-        return new Result(true, data, null);
+        return new Result(true, data, "操作成功");
     }
 
     public static Result success(Object data, String message) {

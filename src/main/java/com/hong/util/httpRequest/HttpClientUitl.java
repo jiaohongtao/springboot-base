@@ -12,6 +12,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
@@ -39,12 +40,14 @@ public class HttpClientUitl {
         CloseableHttpResponse response = null;
         String paramStr;
         try {
-            paramStr = EntityUtils.toString(new UrlEncodedFormEntity(params));
             //拼接参数
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             sb.append(url);
-            sb.append("?");
-            sb.append(paramStr);
+            if (params != null && !params.isEmpty()) {
+                paramStr = EntityUtils.toString(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+                sb.append("?").append(paramStr);
+            }
+
             //2.创建get请求
             HttpGet httpGet = new HttpGet(sb.toString());
             //3.设置请求和传输超时时间

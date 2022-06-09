@@ -69,7 +69,7 @@ public class HttpClientUitl {
             //7.转换成实体类
             HttpEntity entity = response.getEntity();
             if (null != entity) {
-                result = EntityUtils.toString(entity);
+                result = EntityUtils.toString(entity, "UTF-8");
             }
             EntityUtils.consume(entity);
         } catch (UnsupportedEncodingException e) {

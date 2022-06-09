@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Util Controller
@@ -57,13 +59,15 @@ public class UtilController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "format", value = "[json|text|js]")
     })
-    public Result loveTalk(@RequestParam String format) {
+    // public Result loveTalk(@RequestParam(required = false) String format) {
+    public String loveTalk(@RequestParam(required = false) String format) {
         String url = "https://api.uomg.com/api/rand.qinghua";
         List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("format", StringUtils.isBlank(format) ? "json" : format));
         String result = HttpClientUitl.doHttpGet(url, params);
         boolean json = JSONUtil.isJson(result);
 
-        return Result.success(json ? JSONUtil.parseObj(result).getStr("content") : result);
+        // return Result.success(json ? JSONUtil.parseObj(result).getStr("content") : result);
+        return json ? JSONUtil.parseObj(result).getStr("content") : result;
     }
 }

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>功能说明</title>
+    <script th:src="@{/js/jquery.js}"></script>
     <style>
         .aLink {
             text-decoration: none;
@@ -13,7 +14,12 @@
         }
         .submitButton {
             margin-top: 20px;
-            margin-left: 150px;
+            margin-left: 250px;
+        }
+        .common {
+            margin-top: 20px;
+            margin-left: 250px;
+            position: center;
         }
     </style>
 </head>
@@ -35,7 +41,25 @@
     <div class="submitButton">
         <a id="docToPdf" class="aLink" th:href="@{/doc/page}">Doc转Pdf</a>
     </div>
+    <div class="submitButton">
+        <a id="loveTalk" class="aLink" th:href="@{/util/loveTalk}">土味情话</a>
+    </div>
+
+    <div class="submitButton">
+        <a id="wyyComment" class="aLink" href="#" onclick="wyyComment()">网易云热评</a>
+    </div>
 </div>
+
+<br>
+<hr color=#987cb9 style=" width:80%;">
+<br>
+
+<div>
+    <div class="common">
+        <p id="commonContent"></p>
+    </div>
+</div>
+
 </body>
 <script>
     //获取项目根路径
@@ -44,6 +68,25 @@
         let pathName = window.document.location.pathname;
         let pos = curWwwPath.indexOf(pathName);
         return pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+    }
+
+    function wyyComment() {
+        $.get({
+            url: "/hi/util/wyyComment",
+            processData: false, // 告诉jQuery不要去处理发送的数据
+            contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+            success: function (res) {
+                let contentArray = res.split("###&&&");
+                $('#commonContent').text("")
+                $.each(contentArray, function(){
+                    $('#commonContent').append('<p>' + this + '</p>');
+                });
+            },
+            error: function (res) {
+                console.log(res)
+                alert("服务器异常")
+            }
+        })
     }
 
     // 设置功能链接

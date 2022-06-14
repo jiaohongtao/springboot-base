@@ -29,6 +29,9 @@ import java.util.List;
  * @since 2020年05月13日
  */
 public class HttpClientUitl {
+
+    public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36";
+
     /**
      * get 请求
      */
@@ -54,6 +57,8 @@ public class HttpClientUitl {
             // RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(2000).setConnectTimeout(2000).build();
             RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(20000).setConnectTimeout(20000).build();
             httpGet.setConfig(requestConfig);
+            httpGet.setHeader("User-Agent", USER_AGENT);
+
             /*此处可以添加一些请求头信息，例如：
             httpGet.addHeader("content-type","text/xml");*/
             //4.提交参数
@@ -120,7 +125,7 @@ public class HttpClientUitl {
             urlEncodedFormEntity.setContentEncoding("UTF-8");
             urlEncodedFormEntity.setContentType("application/json");*/
             httpPost.setEntity(urlEncodedFormEntity);
-
+            httpPost.setHeader("User-Agent", USER_AGENT);
             response = httpClient.execute(httpPost);
 
             //5.得到响应信息

@@ -29,4 +29,10 @@ public class PageController {
     public String file() {
         return "fileRead";
     }
+
+    @ApiOperation(value = "天气页面", httpMethod = "GET")
+    @GetMapping("/weather")
+    public String weather() {
+        return "weather";
+    }
 }

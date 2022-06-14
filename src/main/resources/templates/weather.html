@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>天气查询</title>
+    <script th:src="@{/js/jquery.js}"></script>
+    <style>
+        .aLink {
+            text-decoration: none;
+        }
+
+        .aLink:hover {
+            text-decoration: underline;
+        }
+
+        .submitButton {
+            margin-top: 20px;
+            margin-left: 250px;
+        }
+
+        .center_pos {
+            position: absolute;
+            left: 50%;
+        }
+
+        .common {
+            margin-top: 20px;
+            margin-left: 250px;
+            position: center;
+        }
+
+        #searchBox {
+            background-color: #eaf8fc;
+            background-image: linear-gradient(#fff, #d4e8ec);
+            border-radius: 35px;
+            border-style: solid;
+            border-width: 1px;
+            border-color: #c4d9ef #a4c3ca #83afb7;
+            width: 500px;
+            height: 42px;
+            overflow: hidden;
+        }
+
+        #searchText {
+            border-radius: 50px;
+            padding: 5px 9px;
+            height: 22px;
+            width: 380px;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25) inset, 0 1px 0 rgba(255, 255, 255, 1);
+            font: normal 13px 'trebuchet MS', arial, helvetica;
+            margin-top: 3px;
+        }
+
+        #submit {
+            border-radius: 15px;
+            height: 30px;
+        }
+
+        #submit:hover {
+            background-color: #95d788;
+            background-image: linear-gradient(#2cfb6b, #25f788);
+        }
+
+        #formWeather {
+            float: left;
+            width: 50%;
+            height: 100%;
+        }
+
+        #weatherDiv {
+            float: left;
+            width: 50%;
+            height: 100%;
+        }
+
+        .button_radius {
+            border-radius: 5px;
+        }
+
+    </style>
+</head>
+<body>
+<div>
+    <h1 style="text-align: center;"><strong>天气查询</strong></h1>
+    <hr color=#987cb9 style=" width:80%;">
+    <br>
+    <div id="formWeather">
+        <center>
+            <form th:action="@{/util/weather}" id="searchBox">
+                <label for="searchText"></label>
+
+                <input type="text" id="searchText" name="city" placeholder="城市名">
+                <input id="submit" type="submit" value="查一下">
+            </form>
+        </center>
+    </div>
+
+    <div id="weatherDiv">
+        <input type="text" id="city" placeholder="城市名" class="button_radius"/>
+        <input type="checkbox" id="type" name="type" class="button_radius"/>周
+        <button id="cityBtn" class="button_radius">查一下</button>
+    </div>
+
+    <br>
+
+
+</div>
+
+<br>
+<hr color=#987cb9 style=" width:80%;">
+<br>
+
+<div>
+    <div class="common">
+        <p id="commonContent"></p>
+    </div>
+</div>
+
+</body>
+<script>
+    //获取项目根路径
+    function getRootPath() {
+        let curWwwPath = window.document.location.href;
+        let pathName = window.document.location.pathname;
+        let pos = curWwwPath.indexOf(pathName);
+        return pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+    }
+
+    $("#cityBtn").click(function () {
+        let cityName = $("#city").val()
+        let isCheck = $("input[name='type']:checked").val();
+        let params = {"city": cityName}
+        if (isCheck) {
+            params.type = 'week'
+        }
+        $.get({
+            url: "/hi/util/weather",
+            data: params,
+            success: function (res) {
+                let commonContent = $('#commonContent');
+                commonContent.text("")
+                console.log(res)
+
+                if (isCheck) {
+                    let resultJson = JSON.parse(res.data);
+                    console.log(resultJson)
+                    let dataJson = resultJson.data;
+                    let city = dataJson.city;
+                    /*let wendu = dataJson.wendu;
+                    let ganmao = dataJson.ganmao;*/
+
+                    let yesterday = dataJson.yesterday;
+                    /*let date = yesterday.date;
+                    let type = yesterday.type;
+                    let high = yesterday.high;
+                    let low = yesterday.low;
+                    let fx = yesterday.fx;
+                    let fl = yesterday.fl;*/
+
+                    commonContent.append('<h1>' + dataJson.city + '</h1>');
+                    commonContent.append('<p><strong>昨日</strong></p>');
+                    commonContent.append('<p><strong>' + yesterday.date + '</strong></p>');
+                    commonContent.append('<p>' + yesterday.type + '</p>');
+                    commonContent.append('<p>' + yesterday.high + " " + yesterday.low + '</p>');
+                    commonContent.append('<p>' + yesterday.fx + " " + yesterday.fl + '</p>');
+
+                    dataJson.forecast.forEach(function (each) {
+                        /*let date = each.date;
+                        let type = each.type;
+                        let high = each.high;
+                        let low = each.low;
+                        let fengxiang = each.fengxiang;
+                        let fengli = each.fengli;*/
+
+                        commonContent.append('<p><strong>' + each.date + '</strong></p>');
+                        commonContent.append('<p>' + each.type + '</p>');
+                        commonContent.append('<p>' + each.high + " " + each.low + '</p>');
+                        commonContent.append('<p>' + each.fengxiang + " " + each.fengli + '</p>');
+                    })
+
+                } else {
+                    // 周
+                    let resultJson = JSON.parse(res.data);
+                    let info = resultJson.info;
+                    // let info = resultJson["info"];
+                    commonContent.append('<h1>' + resultJson.city + '</h1>');
+                    commonContent.append('<p><strong>' + info["date"] + '</strong></p>');
+                    commonContent.append('<p>' + info["type"] + '</p>');
+                    commonContent.append('<p>' + info["high"] + " " + info["low"] + '</p>');
+                    commonContent.append('<p>' + info["fengxiang"] + " " + info["fengli"] + '</p>');
+                    commonContent.append('<p>' + info["tip"] + '</p>');
+                }
+            },
+            error: function (res) {
+                console.log(res)
+                alert("服务器异常")
+            }
+        })
+    })
+
+</script>
+</html>

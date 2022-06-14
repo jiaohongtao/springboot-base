@@ -1,5 +1,6 @@
 package com.hong.controller;
 
+import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.hong.bean.Constant;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 /**
  * Util Controller
  * href: https://api.uomg.com
+ * href: https://api.vvhan.com
  *
  * @author jiaohongtao
  * @version 1.0.0
@@ -122,4 +124,129 @@ public class UtilController {
         return result;
     }
 
+    @GetMapping("/wallpaper")
+    @ApiOperation(value = "图片解析 - LOFTER（乐乎）", httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "format", value = "[json|text|images]")
+    })
+    public Result wallpaper(@RequestParam(required = false) String format) {
+        // https://api.uomg.com/api/image.lofter?format=text
+        String url = "https://api.uomg.com/api/image.lofter";
+        List<NameValuePair> params = new ArrayList<>();
+        params.add(new BasicNameValuePair("format", StringUtils.isBlank(format) ? "json" : format));
+        String result = HttpClientUitl.doHttpGet(url, params);
+        if (JSONUtil.isJson(result)) {
+            JSONObject jsonResult = JSONUtil.parseObj(result);
+            Integer code = jsonResult.getInt("code");
+
+            return code == 1 ? Result.success(jsonResult.getStr("data")) : Result.failed(jsonResult.getStr("msg"));
+        }
+        return Result.success(result);
+    }
+
+    @GetMapping("/heartWord")
+    @ApiOperation(value = "情感一言", httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "aa1", value = "[json|text]")
+    })
+    public String heartWord(@RequestParam(required = false) String aa1) {
+        // https://v.api.aa1.cn/api/api-wenan-qg/index.php?aa1=json
+        String url = "https://v.api.aa1.cn/api/api-wenan-qg/index.php";
+        List<NameValuePair> params = new ArrayList<>();
+        params.add(new BasicNameValuePair("aa1", StringUtils.isBlank(aa1) ? "json" : aa1));
+        String result = HttpClientUitl.doHttpGet(url, params);
+        if (JSONUtil.isJsonArray(result)) {
+            JSONArray jsonResult = JSONUtil.parseArray(result);
+            return jsonResult.getJSONObject(0).getStr("qinggan");
+        }
+        return result;
+    }
+
+    @GetMapping("/qqAvatar")
+    @ApiOperation(value = "qq头像", httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "qq", value = "[qq号]")
+    })
+    public Result qqAvatar(@RequestParam String qq) {
+        // https://v.api.aa1.cn/api/qqjson/index.php?qq=15001904
+        String url = "https://v.api.aa1.cn/api/qqjson/index.php";
+        List<NameValuePair> params = new ArrayList<>();
+        params.add(new BasicNameValuePair("qq", qq));
+        String result = HttpClientUitl.doHttpGet(url, params);
+        String json = result.substring(result.indexOf("["));
+        return Result.success(json);
+    }
+
+    @GetMapping("/weather")
+    @ApiOperation(value = "全国天气", httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "city", value = "[城市|河北|邢台]"),
+            @ApiImplicitParam(name = "type", value = "[week|空]")
+    })
+    public Result weather(@RequestParam String city, @RequestParam(required = false) String type) {
+        // https://api.vvhan.com/api/weather?city=徐州&type=week
+        String url = "https://api.vvhan.com/api/weather";
+        List<NameValuePair> params = new ArrayList<>();
+        params.add(new BasicNameValuePair("city", city));
+        if (StringUtils.isNotBlank(type)) {
+            params.add(new BasicNameValuePair("type", type));
+        }
+        String result = HttpClientUitl.doHttpGet(url, params);
+        JSONObject jsonResult = JSONUtil.parseObj(result);
+
+        if (StringUtils.isNotBlank(type)) {
+            // 周
+            Integer status = jsonResult.getInt("status");
+            if (!status.equals(1000)) {
+                log.info("{}", jsonResult);
+                return Result.failed("没有该城市");
+            }
+            /*JSONObject jsonData = jsonResult.getJSONObject("data");
+
+            // 今天
+            String cityName = jsonData.getStr("city");
+            String ganmao = jsonData.getStr("ganmao");
+            String wendu = jsonData.getStr("wendu");
+
+            // 前一天
+            JSONObject yesterdayJson = jsonData.getJSONObject("yesterday");
+            String yData = yesterdayJson.getStr("data");
+            String yHigh = yesterdayJson.getStr("high");
+            String yFx = yesterdayJson.getStr("fx");
+            String yLow = yesterdayJson.getStr("low");
+            String yFl = yesterdayJson.getStr("fl");
+
+            // 从今天开始五天
+            List<JSONObject> forecastList = jsonData.getJSONArray("forecast").toList(JSONObject.class);
+            forecastList.forEach(forecast -> {
+                String date = forecast.getStr("date");
+                String high = forecast.getStr("high");
+                String fengli = forecast.getStr("fengli");
+                String low = forecast.getStr("low");
+                String fengxiang = forecast.getStr("fengxiang");
+                String forecastType = forecast.getStr("type");
+            });*/
+
+        } else {
+            // 天
+            Boolean success = jsonResult.getBool("success");
+            if (!success) {
+                log.info("{}", jsonResult);
+                return Result.failed("没有该城市");
+            }
+
+            /*String resultCity = jsonResult.getStr("city");
+            JSONObject resultInfo = jsonResult.getJSONObject("info");
+            String date = resultInfo.getStr("data");
+            String weatherType = resultInfo.getStr("type");
+            String weatherHigh = resultInfo.getStr("high");
+            String weatherLow = resultInfo.getStr("low");
+            String weatherFengxiang = resultInfo.getStr("fengxiang");
+            String weatherFengli = resultInfo.getStr("fengli");
+            String weatherTip = resultInfo.getStr("tip");*/
+        }
+
+        // String returnResult = date + weatherType + weatherHigh + weatherLow + weatherFengxiang + weatherFengli + weatherTip;
+        return Result.success(result);
+    }
 }

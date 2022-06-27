@@ -128,9 +128,9 @@
 
     $("#cityBtn").click(function () {
         let cityName = $("#city").val()
-        let isCheck = $("input[name='type']:checked").val();
+        let isWeek = $("input[name='type']:checked").val();
         let params = {"city": cityName}
-        if (isCheck) {
+        if (isWeek) {
             params.type = 'week'
         }
         $.get({
@@ -141,7 +141,7 @@
                 commonContent.text("")
                 console.log(res)
 
-                if (isCheck) {
+                if (isWeek) {
                     let resultJson = JSON.parse(res.data);
                     console.log(resultJson)
                     let dataJson = resultJson.data;
@@ -172,20 +172,18 @@
                         let fengxiang = each.fengxiang;
                         let fengli = each.fengli;*/
 
-                        commonContent.append('<p><strong>' + each.date + '</strong></p>');
-                        commonContent.append('<p>' + each.type + '</p>');
+                        commonContent.append('<p><strong>' + each.date + " " + each.type + '</strong></p>');
                         commonContent.append('<p>' + each.high + " " + each.low + '</p>');
                         commonContent.append('<p>' + each.fengxiang + " " + each.fengli + '</p>');
                     })
 
                 } else {
-                    // 周
+                    // 天
                     let resultJson = JSON.parse(res.data);
                     let info = resultJson.info;
                     // let info = resultJson["info"];
                     commonContent.append('<h1>' + resultJson.city + '</h1>');
-                    commonContent.append('<p><strong>' + info["date"] + '</strong></p>');
-                    commonContent.append('<p>' + info["type"] + '</p>');
+                    commonContent.append('<p><strong>' + info["date"] + " " + info["type"] + '</strong></p>');
                     commonContent.append('<p>' + info["high"] + " " + info["low"] + '</p>');
                     commonContent.append('<p>' + info["fengxiang"] + " " + info["fengli"] + '</p>');
                     commonContent.append('<p>' + info["tip"] + '</p>');

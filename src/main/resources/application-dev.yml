@@ -25,42 +25,28 @@ spring:
       # 监听目录
       additional-paths: src/main/java
 
+  # redis配置
   redis:
-    host: 127.0.0.1
-    password: 12345678
-    port: 6379
+    # Redis数据库索引（默认为0）
     database: 0
-    # 30 分钟
-    timeout: 1800000
+    # Redis服务器地址
+    host: 127.0.0.1
+    # Redis服务器连接端口
+    port: 6379
+    # Redis服务器连接密码（默认为空）
+    password: 123456
+    # 连接超时时间（毫秒）
+    timeout: 1000
     lettuce:
       pool:
-        max-active: 20
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 200
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
         max-wait: -1
-        max-idle: 5
+        # 连接池中的最大空闲连接
+        max-idle: 10
+        # 连接池中的最小空闲连接
         min-idle: 0
-
-  # # redis配置
-  # redis:
-  #   # Redis数据库索引（默认为0）
-  #   database: 0
-  #   # Redis服务器地址
-  #   host: 10.20.10.10
-  #   # Redis服务器连接端口
-  #   port: 6379
-  #   # Redis服务器连接密码（默认为空）
-  #   password:
-  #   # 连接超时时间（毫秒）
-  #   timeout: 1000
-  #   lettuce:
-  #     pool:
-  #       # 连接池最大连接数（使用负值表示没有限制）
-  #       max-active: 200
-  #       # 连接池最大阻塞等待时间（使用负值表示没有限制）
-  #       max-wait: -1
-  #       # 连接池中的最大空闲连接
-  #       max-idle: 10
-  #       # 连接池中的最小空闲连接
-  #       min-idle: 0
 
   # 漂亮打印Spring Boot Actuator端点的JSON输出, 不只是 actuator 使用
   jackson:

@@ -271,6 +271,14 @@
             <artifactId>commons-pool2</artifactId>
         </dependency>
         <!-- Redis END -->
+
+        <!-- 集成spring-boot-starter-actuator 用于检测系统的健康情况、当前的Beans、系统的缓存等 -->
+        <!-- https://blog.csdn.net/qq_39042062/article/details/121943803 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

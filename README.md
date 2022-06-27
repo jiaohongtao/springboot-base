@@ -6,3 +6,16 @@
 
 # 参考文献
 - [SpringBoot + validation 接口参数校验](https://blog.csdn.net/u014553029/article/details/109192520)
+
+
+# 开启/关闭 SSL
+- 项目ssl
+    server:
+      ssl:
+        enabled: false
+- actuator的ssl
+    management:
+      server:
+        ssl:
+          enabled: false
+- TomcatHttpsConfig的配置（可选），用于端口重定向

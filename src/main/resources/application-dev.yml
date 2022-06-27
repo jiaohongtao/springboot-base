@@ -2,6 +2,11 @@ server:
   port: 9090
   servlet:
     context-path: /hi/
+  ssl:
+    key-store: classpath:jiaohongtao.com.pfx
+    key-store-password: 5t0krowrx56
+    key-store-type: PKCS12
+    enabled: true
 
 spring:
   thymeleaf:
@@ -59,3 +64,20 @@ spring:
 
 my:
   name: jiaohongtao
+
+# actuator
+management:
+  server:
+    # actuator 的访问端口
+    port: 8081
+    ssl:
+      key-store: classpath:jiaohongtao.com.pfx
+      key-store-password: 5t0krowrx56
+      key-store-type: PKCS12
+      enabled: true
+  endpoints:
+    web:
+      # 根路径 端口后的路径，无需要添加项目的初始路径
+      base-path: /actuator/base
+      exposure:
+        include: '*'

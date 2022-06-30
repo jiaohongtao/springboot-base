@@ -158,9 +158,8 @@
                     let fl = yesterday.fl;*/
 
                     commonContent.append('<h1>' + dataJson.city + '</h1>');
-                    commonContent.append('<p><strong>昨日</strong></p>');
-                    commonContent.append('<p><strong>' + yesterday.date + '</strong></p>');
-                    commonContent.append('<p>' + yesterday.type + '</p>');
+                    // commonContent.append('<p><strong>昨日</strong></p>');
+                    commonContent.append('<p><strong>' + yesterday.date + "(昨日) " + yesterday.type + '</strong></p>');
                     commonContent.append('<p>' + yesterday.high + " " + yesterday.low + '</p>');
                     commonContent.append('<p>' + yesterday.fx + " " + yesterday.fl + '</p>');
 

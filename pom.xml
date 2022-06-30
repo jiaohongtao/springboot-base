@@ -17,6 +17,9 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <!-- 替换 spring-boot-starter-web 中的 jackson-databind 2.9.9， 升级 jackson-databind
+         这里的配置替换了基层的配置 -->
+        <jackson.version>2.10.0</jackson.version>
     </properties>
 
     <dependencies>
@@ -349,7 +352,8 @@
                     <!-- 生成git属性文件，默认false：不生成 -->
                     <generateGitPropertiesFile>true</generateGitPropertiesFile>
                     <!-- 生成git属性文件路径及文件名，默认${project.build.outputDirectory}/git.properties -->
-                    <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+                    <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties
+                    </generateGitPropertiesFilename>
                     <!-- 生成git属性文件格式，默认值properties -->
                     <format>json</format>
                     <!-- 配置git-describe命令 -->

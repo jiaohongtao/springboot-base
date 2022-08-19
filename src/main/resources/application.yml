@@ -2,16 +2,8 @@ server:
   port: 9090
   servlet:
     context-path: /hi/
-    # context-path: /spring_html/
-# 解决Caused by: org.hibernate.HibernateException: Access to DialectResolutionInfo
-# spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
 
 spring:
-#  session:
-#    store-type: jdbc
-#  application:
-#    name: demo
-
   profiles:
     active: dev
 
@@ -22,13 +14,6 @@ spring:
     cache: false  #是否使用缓存
     # mode: HTML  #严格的HTML语法模式
     suffix: .html  #后缀名
-#  # 定位模板的目录
-#  mvc:
-#    view:
-#      prefix: classpath:/templates/
-#      #spring.mvc.view.prefix=/
-#      # 给返回的页面添加后缀名
-#      suffix: .html
 
   devtools:
     # 开启热部署
@@ -37,24 +22,6 @@ spring:
       # 监听目录
       additional-paths: src/main/java
 
-#  datasource:
-#    url: jdbc:mysql://10.20.10.16:3306/ceshi_lts?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    username: root
-#    password: onceas
-#    # type: com.mysql.cj.jdbc.MysqlConnectionPoolDataSource
-#
-#  jpa:
-#    properties:
-#      hibernate:
-#        ddl-auto: update
-#        # properties:
-#        #   hibernate:
-#        #     hbm2ddl:
-#        #       auto: create
-#        #     dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-#        #     format_sql: true
-#        show-sql: true
 
 my:
   name: jiaohongtao
@@ -62,56 +29,3 @@ my:
 person:
   name: jiaojiao
   age: 18
-
-  # spring.datasource.url=jdbc:mysql://10.20.10.16:3306/ceshi_lts?serverTimezone=UTC
-  #spring.datasource.username=root
-  #spring.datasource.password=onceas
-  #spring.datasource.driverClassName=com.mysql.cj.jdbc.Driver
-  #spring.jpa.show-sql=true
-  #spring.jpa.hibernate.ddl-auto=none
-  ## 解决Caused by: org.hibernate.HibernateException: Access to DialectResolutionInfo
-  #spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
-  #
-  #server.port= 9090
-  #server.servlet.context-path= /spring_html/
-  #
-  ## 定位模板的目录
-  #spring.mvc.view.prefix=classpath:/templates/
-  ##spring.mvc.view.prefix=/
-  ## 给返回的页面添加后缀名
-  #spring.mvc.view.suffix=.html
-  #
-  ##项目中修改代码可以不用重新停止应用再重新启动，可以自动重启
-  ## 缓存
-  #spring.thymeleaf.cache=false
-  ## 开启
-  #spring.devtools.restart.enabled=true
-  ## 监听目录
-  #spring.devtools.restart.additional-paths=src/main/java
-  #
-  #my.name=jiaohongtao
-  #
-  #spring.session.store-type=jdbc
-  #
-  #
-  #spring:
-  #application:
-  #name: demo
-  #
-  #datasource:
-  #url: jdbc:mysql://10.20.10.16:3306/ceshi_lts?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
-  #driver-class-name: com.mysql.cj.jdbc.Driver
-  #username: root
-  #password: onceas
-  ## type: com.mysql.cj.jdbc.MysqlConnectionPoolDataSource
-  #
-  #jpa:
-  #hibernate:
-  #ddl-auto: update
-  ## properties:
-  ##   hibernate:
-  ##     hbm2ddl:
-  ##       auto: create
-  ##     dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-  ##     format_sql: true
-  #show-sql: true

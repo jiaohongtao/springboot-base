@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -34,5 +35,29 @@ public class PageController {
     @GetMapping("/weather")
     public String weather() {
         return "weather";
+    }
+
+    @ApiOperation(value = "testApi", httpMethod = "GET")
+    @GetMapping("/testApi")
+    public String testApi() {
+        return "testApi";
+    }
+
+    @ApiOperation(value = "/api", httpMethod = "GET")
+    @GetMapping("/api")
+    public String api() {
+        return "apiDoc";
+    }
+
+    @ApiOperation(value = "/loveTalk", httpMethod = "GET")
+    @GetMapping("/loveTalk")
+    public String loveTalk() {
+        return "apiPage/loveTalk";
+    }
+
+    @ApiOperation(value = "/toPage", httpMethod = "GET")
+    @GetMapping("/toPage/{pageName}")
+    public String loveTalk(@PathVariable String pageName) {
+        return "page/" + pageName;
     }
 }

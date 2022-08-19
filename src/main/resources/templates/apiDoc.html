@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Api页面</title>
+    <script th:src="@{/js/jquery.js}"></script>
+    <script th:src="@{/js/common.js}"></script>
+
+    <style>
+        #body_class {
+            background-color: #F5FFFA;
+        }
+
+        #container {
+            margin: 10px 100px 10px 100px;
+        }
+
+        .line-item {
+            margin: auto;
+            height: 120px;
+            width: auto;
+            display: flex;
+        }
+
+        .module-item {
+            background-color: #eaf8fc;
+            height: 100px;
+            width: 250px;
+            border-radius: 20px;
+            margin: 10px 5px;
+            line-height: 100px;
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body id="body_class">
+<div id="container">
+    <div class="line-item">
+        <div class="module-item" id="loveTalk">tuwei</div>
+        <div class="module-item" id="1">tuwei</div>
+        <div class="module-item" id="2">tuwei</div>
+        <div class="module-item" id="3">tuwei</div>
+        <div class="module-item" id="4">tuwei</div>
+        <div class="module-item" id="5">tuwei</div>
+    </div>
+    <div style="clear:both"></div>
+
+    <div class="line-item">
+        <div class="module-item">tuwei</div>
+        <div class="module-item">tuwei</div>
+        <div class="module-item">tuwei</div>
+        <div class="module-item">tuwei</div>
+        <div class="module-item">tuwei</div>
+        <div class="module-item">tuwei</div>
+    </div>
+    <div style="clear:both"></div>
+
+    <div id="content"></div>
+</div>
+</body>
+<script type="application/javascript">
+    $("#loveTalk").click(function () {
+        window.location.href = getRootPath() + "/page/loveTalk";
+    })
+
+    /*//获取项目根路径
+    function getRootPath() {
+        let pathName = window.document.location.pathname;
+        return pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+    }*/
+</script>
+</html>

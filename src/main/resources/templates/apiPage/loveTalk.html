@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>loveTalk介绍</title>
+    <script th:src="@{/js/jquery.js}"></script>
+    <script th:src="@{/js/common.js}"></script>
+    <script th:src="@{/js/jquery.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+
+            <blockquote>
+                <p>接口地址：https://www.jiaohongtao.com:9090/hi/api/loveTalk</p>
+                <p>返回格式：json</p>
+                <p>请求方式：get</p>
+                <p>请求示例：https://www.jiaohongtao.com:9090/hi/api/loveTalk?clientId=&lt;xxx&gt;&format=json</p>
+            </blockquote>
+
+            <p>请求参数说明：</p>
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>参数</th>
+                    <th>必填</th>
+                    <th>类型</th>
+                    <th>说明</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>clientId</td>
+                    <td>是</td>
+                    <td>string</td>
+                    <td>密钥</td>
+                </tr>
+                <tr class="success">
+                    <td>format</td>
+                    <td>否</td>
+                    <td>string</td>
+                    <td>[json|text|js] 获取格式</td>
+                </tr>
+                <!--<tr class="error">
+                    <td>3</td>
+                    <td>TB - Monthly</td>
+                    <td>02/04/2012</td>
+                    <td>Declined</td>
+                </tr>
+                <tr class="warning">
+                    <td>4</td>
+                    <td>TB - Monthly</td>
+                    <td>03/04/2012</td>
+                    <td>Pending</td>
+                </tr>
+                <tr class="info">
+                    <td>5</td>
+                    <td>TB - Monthly</td>
+                    <td>04/04/2012</td>
+                    <td>Call in to confirm</td>
+                </tr>-->
+                </tbody>
+            </table>
+
+            <p>返回参数说明：</p>
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>类型</th>
+                    <th>说明</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>success</td>
+                    <td>boolean</td>
+                    <td>返回的状态</td>
+                </tr>
+                <tr class="success">
+                    <td>data</td>
+                    <td>object</td>
+                    <td>返回查到的数据</td>
+                </tr>
+                <tr>
+                    <td>message</td>
+                    <td>string</td>
+                    <td>结果说明</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <p>返回示例：</p>
+            <div>
+                <pre>{"success": true, "data": "三合一收款码在线生成", "message": "操作成功"}</pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<th:input:
+
+</body>
+</html>

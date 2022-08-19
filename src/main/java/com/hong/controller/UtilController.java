@@ -19,10 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Util Controller
@@ -248,5 +252,81 @@ public class UtilController {
 
         // String returnResult = date + weatherType + weatherHigh + weatherLow + weatherFengxiang + weatherFengli + weatherTip;
         return Result.success(result);
+    }
+
+    /*@GetMapping("/weiboHot")
+    @ApiOperation(value = "微博热搜", httpMethod = "GET")
+    public Result weiboHot() {
+        // 32ffd8fc28e5d36bdc6e807f3a0f3b6e
+        // http://api.tianapi.com/weibohot/index?key=APIKEY
+
+        //java环境中文传值时，需特别注意字符编码问题
+        String httpUrl = "http://api.tianapi.com/weibohot/index";
+        String jsonResult = requestHasKey(httpUrl);
+        return Result.success(jsonResult);
+    }*/
+
+    @GetMapping("/kuaidi")
+    @ApiOperation(value = "快递查询", httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "type", value = "快递公司代号 [申通=shentong EMS=ems 顺丰=shunfeng 圆通=yuantong 中通=zhongtong 韵达=yunda" +
+                    " 天天=tiantian 汇通=huitongkuaidi 全峰=quanfengkuaidi 德邦=debangwuliu 宅急送=zhaijisong]"),
+            @ApiImplicitParam(name = "postId", value = "快递单号")
+    })
+    public Result kuaidi(@RequestParam String type, @RequestParam String postId) {
+        // http://www.kuaidi100.com/query?type=快递公司代号&postid=快递单号
+        // PS：快递公司编码:申通="shentong" EMS="ems" 顺丰="shunfeng" 圆通="yuantong" 中通="zhongtong" 韵达="yunda"
+        // 天天="tiantian" 汇通="huitongkuaidi" 全峰="quanfengkuaidi" 德邦="debangwuliu" 宅急送="zhaijisong"
+
+        String httpUrl = "http://www.kuaidi100.com/query?type=" + type + "&postid=" + postId;
+        String jsonResult = requestHasKey(httpUrl);
+        return Result.success(jsonResult);
+    }
+
+
+    /**
+     * @param httpUrl 请求接口
+     * @return 返回结果
+     */
+    public static String requestHasKey(String httpUrl) {
+        return requestArg(httpUrl, "key=32ffd8fc28e5d36bdc6e807f3a0f3b6e");
+    }
+
+    /**
+     * @param httpUrl 请求接口
+     * @return 返回结果
+     */
+    public static String request(String httpUrl) {
+        return requestArg(httpUrl, "");
+    }
+
+    /**
+     * @param httpUrl 请求接口
+     * @param httpArg 参数
+     * @return 返回结果
+     */
+    public static String requestArg(String httpUrl, String httpArg) {
+        BufferedReader reader;
+        String result = null;
+        StringBuilder stringBuilder = new StringBuilder();
+        httpUrl = httpUrl + "?" + httpArg;
+
+        try {
+            URL url = new URL(httpUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            InputStream is = connection.getInputStream();
+            reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+            String strRead;
+            while ((strRead = reader.readLine()) != null) {
+                stringBuilder.append(strRead);
+                stringBuilder.append("\r\n");
+            }
+            reader.close();
+            result = stringBuilder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }

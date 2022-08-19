@@ -101,7 +101,7 @@ public class UtilController {
     })
     // public Result wyyComment(@RequestParam(required = false) Integer mid, @RequestParam(required = false) String format) {
     public String wyyComment(@RequestParam(required = false) Integer mid, @RequestParam(required = false) String format) {
-        String url = "https://api.uomg.com/api/comments.163";
+        String url = "https://api.uomg.com/api/rand.music";
         List<NameValuePair> params = new ArrayList<>();
         if (null != mid) {
             params.add(new BasicNameValuePair("mid", mid + ""));

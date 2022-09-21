@@ -4,10 +4,19 @@ import com.hong.bean.Constant;
 import com.hong.bean.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
+import org.apache.pdfbox.text.PDFTextStripperByArea;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.ResourceUtils;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -265,6 +274,40 @@ public class FileOperate {
         return Objects.isNull(object) ? "" : object.toString();
     }
 
+    /**
+     * 获取文件属性
+     *
+     * @param filePath 文件地址
+     */
+    public static Map<String, Object> getAttrs(String filePath) throws IOException {
+        // 指定自己的目标文件
+        // File file = new File("C:\\Users\\jx\\Desktop\\test.txt");
+        File file = new File(filePath);
+        long fileModify = file.lastModified();
+
+        // 根据文件的绝对路径获取Path
+        Path path = Paths.get(file.getAbsolutePath());
+        // 根据path获取文件的基本属性类
+        BasicFileAttributes attrs = Files.readAttributes(path, BasicFileAttributes.class);
+        // 从基本属性类中获取文件创建时间
+        FileTime fileTime = attrs.creationTime();
+
+        // 将文件创建时间转成毫秒
+        long millis = fileTime.toMillis();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        // 毫秒转成时间字符串
+        String time = dateFormat.format(new Date(millis));
+        String modifyTime = dateFormat.format(new Date(attrs.lastModifiedTime().toMillis()));
+        // System.out.println(time);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("createTime", time);
+        map.put("modifyTime", modifyTime);
+        map.put("size", attrs.size());
+        map.put("path", file.getPath());
+        map.put("fileModify", dateFormat.format(new Date(fileModify)));
+        return map;
+    }
 
     public static void main(String[] args) throws Exception {
         // getStaticFileMap("myself").forEach((k, v) -> System.out.println(k + " " + v));

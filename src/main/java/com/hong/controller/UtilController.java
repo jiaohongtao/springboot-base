@@ -251,7 +251,8 @@ public class UtilController {
         }
 
         // String returnResult = date + weatherType + weatherHigh + weatherLow + weatherFengxiang + weatherFengli + weatherTip;
-        return Result.success(result);
+        // return Result.success(result);
+        return Result.success(jsonResult);
     }
 
     /*@GetMapping("/weiboHot")

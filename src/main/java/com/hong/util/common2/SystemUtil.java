@@ -28,6 +28,15 @@ public class SystemUtil {
     }
 
     /**
+     * 获取Windows桌面路径
+     */
+    public static String getDesktopPath() {
+        // HOMEPATH
+        // USERPROFILE
+        return System.getenv().get("USERPROFILE") + "\\Desktop\\";
+    }
+
+    /**
      * 获取系统环境变量
      */
     public static Map<String, String> getSystemEnvMap() {

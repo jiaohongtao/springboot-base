@@ -18,6 +18,9 @@ spring:
     suffix: .html  #后缀名
   mvc:
     static-path-pattern: /**
+    # swagger 规则
+    pathmatch:
+      matching-strategy: ant_path_matcher
   devtools:
     # 开启热部署
     restart:

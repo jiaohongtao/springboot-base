@@ -4,9 +4,6 @@ import com.hong.bean.Constant;
 import com.hong.bean.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.text.PDFTextStripper;
-import org.apache.pdfbox.text.PDFTextStripperByArea;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.ResourceUtils;
 

@@ -27,6 +27,10 @@ spring:
       enabled: true
       # 监听目录
       additional-paths: src/main/java
+  # 解决升级 Spring Boot 2.6后，因循环引用导致启动时报错的问题
+  # https://blog.csdn.net/qq_45151158/article/details/123113935
+  main:
+    allow-circular-references: true
 
   datasource:
     url: jdbc:mysql://localhost:13306/springboot?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC

@@ -5,7 +5,7 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.hong.bean.Constant;
 import com.hong.bean.Result;
-import com.hong.util.httpRequest.HttpClientUitl;
+import com.hong.util.httpRequest.HttpClientUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -57,7 +57,7 @@ public class UtilController {
         List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("sort", StringUtils.isBlank(sort) ? "男" : sort));
         params.add(new BasicNameValuePair("format", StringUtils.isBlank(format) ? "json" : format));
-        String result = HttpClientUitl.doHttpGet(url, params);
+        String result = HttpClientUtil.doHttpGet(url, params);
         JSONObject jsonResult = JSONUtil.parseObj(result);
         Integer code = jsonResult.getInt("code");
 
@@ -74,7 +74,7 @@ public class UtilController {
         String url = "https://api.uomg.com/api/rand.qinghua";
         List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("format", StringUtils.isBlank(format) ? "json" : format));
-        String result = HttpClientUitl.doHttpGet(url, params);
+        String result = HttpClientUtil.doHttpGet(url, params);
         boolean json = JSONUtil.isJson(result);
 
         // return Result.success(json ? JSONUtil.parseObj(result).getStr("content") : result);
@@ -87,7 +87,7 @@ public class UtilController {
         String url = "https://api.uomg.com/api/visitor.info";
         List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("skey", "随便"));
-        String result = HttpClientUitl.doHttpGet(url, params);
+        String result = HttpClientUtil.doHttpGet(url, params);
         // boolean json = JSONUtil.isJson(result);
 
         return Result.success(result);
@@ -107,7 +107,7 @@ public class UtilController {
             params.add(new BasicNameValuePair("mid", mid + ""));
         }
         params.add(new BasicNameValuePair("format", StringUtils.isBlank(format) ? "json" : format));
-        String result = HttpClientUitl.doHttpGet(url, params);
+        String result = HttpClientUtil.doHttpGet(url, params);
         log.info("\n" + result);
         boolean json = JSONUtil.isJson(result);
         StringBuilder stringBuilder = new StringBuilder();
@@ -138,7 +138,7 @@ public class UtilController {
         String url = "https://api.uomg.com/api/image.lofter";
         List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("format", StringUtils.isBlank(format) ? "json" : format));
-        String result = HttpClientUitl.doHttpGet(url, params);
+        String result = HttpClientUtil.doHttpGet(url, params);
         if (JSONUtil.isJson(result)) {
             JSONObject jsonResult = JSONUtil.parseObj(result);
             Integer code = jsonResult.getInt("code");
@@ -158,7 +158,7 @@ public class UtilController {
         String url = "https://v.api.aa1.cn/api/api-wenan-qg/index.php";
         List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("aa1", StringUtils.isBlank(aa1) ? "json" : aa1));
-        String result = HttpClientUitl.doHttpGet(url, params);
+        String result = HttpClientUtil.doHttpGet(url, params);
         if (JSONUtil.isJsonArray(result)) {
             JSONArray jsonResult = JSONUtil.parseArray(result);
             return jsonResult.getJSONObject(0).getStr("qinggan");
@@ -176,7 +176,7 @@ public class UtilController {
         String url = "https://v.api.aa1.cn/api/qqjson/index.php";
         List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("qq", qq));
-        String result = HttpClientUitl.doHttpGet(url, params);
+        String result = HttpClientUtil.doHttpGet(url, params);
         String json = result.substring(result.indexOf("["));
         return Result.success(json);
     }
@@ -195,7 +195,7 @@ public class UtilController {
         if (StringUtils.isNotBlank(type)) {
             params.add(new BasicNameValuePair("type", type));
         }
-        String result = HttpClientUitl.doHttpGet(url, params);
+        String result = HttpClientUtil.doHttpGet(url, params);
         JSONObject jsonResult = JSONUtil.parseObj(result);
 
         if (StringUtils.isNotBlank(type)) {

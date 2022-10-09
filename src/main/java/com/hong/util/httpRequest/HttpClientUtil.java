@@ -176,6 +176,8 @@ public class HttpClientUtil {
 
     /**
      * 发送post raw数据
+     * https://blog.csdn.net/qq_27605885/article/details/80460463
+     * https://www.cnblogs.com/ifindu-san/p/9277967.html
      *
      * @param url    url
      * @param querys url参数

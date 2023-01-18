@@ -37,4 +37,8 @@ public class Result {
     public static Result failed(Object data, String message) {
         return new Result(false, data, message);
     }
+
+    public boolean isFailed() {
+        return !isSuccess();
+    }
 }

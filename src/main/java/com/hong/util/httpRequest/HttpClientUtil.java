@@ -1,6 +1,7 @@
 package com.hong.util.httpRequest;
 
 import com.alibaba.fastjson.JSONObject;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -22,6 +23,7 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +36,7 @@ import java.util.Map;
  * @version 1.0
  * @since 2020年05月13日
  */
+@Slf4j
 public class HttpClientUtil {
 
     public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36";
@@ -53,7 +56,7 @@ public class HttpClientUtil {
             StringBuilder sb = new StringBuilder();
             sb.append(url);
             if (params != null && !params.isEmpty()) {
-                paramStr = EntityUtils.toString(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+                paramStr = EntityUtils.toString(new UrlEncodedFormEntity(params, StandardCharsets.UTF_8));
                 sb.append("?").append(paramStr);
             }
 
@@ -183,7 +186,7 @@ public class HttpClientUtil {
      * @param querys url参数
      * @param param  raw 参数 {"a":"b"}
      */
-    public static String httpPostRaw(String url, List<JSONObject> querys, JSONObject param) throws IOException {
+    public static String httpPostRaw(String url, List<JSONObject> querys, JSONObject param) {
         // 拼接url及参数
         StringBuilder urlBuilder = new StringBuilder(url);
         if (null != querys && !querys.isEmpty()) {
@@ -199,10 +202,27 @@ public class HttpClientUtil {
         HttpClient httpClient = new DefaultHttpClient();
         HttpPost post = new HttpPost(url);
         // json传递
-        post.setEntity(new StringEntity(param.toJSONString()));
+        try {
+            post.setEntity(new StringEntity(param.toJSONString()));
+        } catch (UnsupportedEncodingException e) {
+            log.error("字符编码不支持：", e);
+            return null;
+        }
         post.setHeader("Content-type", "application/json");
-        HttpResponse response = httpClient.execute(post);
-        return EntityUtils.toString(response.getEntity());
+        HttpResponse response;
+        try {
+            response = httpClient.execute(post);
+        } catch (IOException e) {
+            log.error("IO读取异常：", e);
+            return null;
+        }
+        try {
+            assert response != null;
+            return EntityUtils.toString(response.getEntity());
+        } catch (IOException e) {
+            log.error("IO读取异常：", e);
+            return null;
+        }
     }
 
 

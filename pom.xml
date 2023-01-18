@@ -259,20 +259,20 @@
         </dependency>
 
         <!-- Redis START -->
-        <!--<dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-pool2</artifactId>
-        </dependency>-->
+        </dependency>
 
-        <!--<dependency>
+        <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson-spring-boot-starter</artifactId>
             <version>3.17.6</version>
-        </dependency>-->
+        </dependency>
         <!-- Redis END -->
 
         <!-- 集成spring-boot-starter-actuator 用于检测系统的健康情况、当前的Beans、系统的缓存等 -->
@@ -329,6 +329,10 @@
             <version>8.4.4</version>
         </dependency>-->
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
 
     </dependencies>
 
@@ -428,6 +432,21 @@
                 </configuration>
             </plugin>-->
 
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>7.2.0</version>
+                <configuration>
+                    <autoUpdate>true</autoUpdate>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
         </plugins>
     </build>

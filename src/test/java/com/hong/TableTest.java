@@ -1,6 +1,7 @@
 package com.hong;
 
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hong.bean.Table;
 import com.hong.dao.TableMapper;
 import org.junit.Test;
@@ -26,7 +27,9 @@ public class TableTest {
 
     @Test
     public void test() {
-        List<Table> all = mapper.all();
+        /*List<Table> all = mapper.all();*/
+        // List<Table> all = mapper.selectList(null);
+        List<Table> all = mapper.selectList(new QueryWrapper<>());
         all.forEach(table -> System.out.println(JSONUtil.toJsonStr(table)));
     }
 }

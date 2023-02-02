@@ -12,6 +12,7 @@ import java.util.List;
  * @version 1.0.0
  * @since 2022/07/18
  */
+// 如果不使用注解，需要启动类扫描mapper.java文件位置
 @Mapper
 public interface TableMapper extends BaseMapper<Table> {
 

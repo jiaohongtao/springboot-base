@@ -43,6 +43,17 @@ spring:
   jackson:
     serialization:
       indent_output: true
+
+elasticsearch:
+  host: 10.1.2.15
+  port: 9200
+  username: elastic
+  password: 123456
+  connTimeout: 3000
+  socketTimeout: 5000
+  connectionRequestTimeout: 500
+
+
 my:
   name: jiaohongtao
 

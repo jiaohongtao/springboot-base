@@ -2,29 +2,29 @@ package com.hong.util.httpRequest;
 
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
+import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.*;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.FormBodyPart;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -177,6 +177,72 @@ public class HttpClientUtil {
         return result;
     }
 
+    public static String httpGet(String url, List<JSONObject> querys, JSONObject param) {
+        return httpGet(url, querys, param, new HashMap<>());
+    }
+
+    public static String httpGet(String url, List<JSONObject> querys, JSONObject param, Map<String, String> header) {
+        // 拼接url及参数
+        StringBuilder urlBuilder = new StringBuilder(url);
+        if (null != querys && !querys.isEmpty()) {
+            urlBuilder.append("?");
+            for (JSONObject query : querys) {
+                for (Map.Entry<String, Object> entry : query.entrySet()) {
+                    urlBuilder.append(entry.getKey()).append("=").append(entry.getValue());
+                }
+            }
+            url = urlBuilder.toString();
+        }
+
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpGet get = new HttpGet(url);
+        get.setHeader("Content-type", "application/json");
+        header.forEach(get::addHeader);
+
+        HttpResponse response;
+        try {
+            response = httpClient.execute(get);
+        } catch (IOException e) {
+            log.error("IO读取异常：", e);
+            return null;
+        }
+        try {
+            assert response != null;
+            return EntityUtils.toString(response.getEntity());
+        } catch (IOException e) {
+            log.error("IO读取异常：", e);
+            return null;
+        }
+    }
+
+    public static String sendPost(String url, JSONObject params, File file, Map<String, String> header) {
+        HttpClient httpClient = new DefaultHttpClient();
+        String result = null;
+        HttpPost post = new HttpPost(url);// 创建HttpPost对象
+        header.forEach(post::addHeader);
+        // 如果传递参数个数比较多的话可以对传递的参数进行封装
+        MultipartEntity entity = new MultipartEntity();
+        try {
+            for (String key : params.keySet()) {    // 封装请求参数
+                //避免传递汉字出现乱码
+                StringBody value = new StringBody(params.getString(key), StandardCharsets.UTF_8);
+                entity.addPart(new FormBodyPart(key, value));
+            }
+            if (file != null) {
+                entity.addPart("file", new FileBody(file));
+            }
+            post.setEntity(entity);// 设置请求参数
+            HttpResponse response = httpClient.execute(post);
+            if (response.getStatusLine().getStatusCode() == 200) {
+                HttpEntity resEntity = response.getEntity();
+                result = EntityUtils.toString(resEntity, "UTF-8");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     /**
      * 发送post raw数据
      * https://blog.csdn.net/qq_27605885/article/details/80460463
@@ -187,6 +253,10 @@ public class HttpClientUtil {
      * @param param  raw 参数 {"a":"b"}
      */
     public static String httpPostRaw(String url, List<JSONObject> querys, JSONObject param) {
+        return httpPostRaw(url, querys, param, new HashMap<>());
+    }
+
+    public static String httpPostRaw(String url, List<JSONObject> querys, JSONObject param, Map<String, String> header) {
         // 拼接url及参数
         StringBuilder urlBuilder = new StringBuilder(url);
         if (null != querys && !querys.isEmpty()) {
@@ -201,6 +271,8 @@ public class HttpClientUtil {
 
         HttpClient httpClient = new DefaultHttpClient();
         HttpPost post = new HttpPost(url);
+        header.forEach(post::addHeader);
+
         // json传递
         try {
             post.setEntity(new StringEntity(param.toJSONString()));
@@ -212,6 +284,101 @@ public class HttpClientUtil {
         HttpResponse response;
         try {
             response = httpClient.execute(post);
+        } catch (IOException e) {
+            log.error("IO读取异常：", e);
+            return null;
+        }
+        try {
+            assert response != null;
+            return EntityUtils.toString(response.getEntity());
+        } catch (IOException e) {
+            log.error("IO读取异常：", e);
+            return null;
+        }
+    }
+
+    public static String httpDeleteRaw(String url, List<JSONObject> querys, JSONObject param, Map<String, String> header) {
+        // 拼接url及参数
+        StringBuilder urlBuilder = new StringBuilder(url);
+        if (null != querys && !querys.isEmpty()) {
+            urlBuilder.append("?");
+            for (JSONObject query : querys) {
+                for (Map.Entry<String, Object> entry : query.entrySet()) {
+                    urlBuilder.append(entry.getKey()).append("=").append(entry.getValue());
+                }
+            }
+            url = urlBuilder.toString();
+        }
+
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpDelete httpDelete = new HttpDelete(url);
+        httpDelete.setHeader("Content-type", "application/json");
+        header.forEach(httpDelete::addHeader);
+
+        /*// json传递
+        try {
+            httpDelete.setEntity(new StringEntity(param.toJSONString()));
+        } catch (UnsupportedEncodingException e) {
+            log.error("字符编码不支持：", e);
+            return null;
+        }*/
+        HttpResponse response;
+        try {
+            response = httpClient.execute(httpDelete);
+        } catch (IOException e) {
+            log.error("IO读取异常：", e);
+            return null;
+        }
+        try {
+            assert response != null;
+            return EntityUtils.toString(response.getEntity());
+        } catch (IOException e) {
+            log.error("IO读取异常：", e);
+            return null;
+        }
+    }
+
+    /**
+     * 发送post raw数据
+     * https://blog.csdn.net/qq_27605885/article/details/80460463
+     * https://www.cnblogs.com/ifindu-san/p/9277967.html
+     *
+     * @param url    url
+     * @param querys url参数
+     * @param param  raw 参数 {"a":"b"}
+     */
+    public static String httpPutRaw(String url, List<JSONObject> querys, JSONObject param) {
+        return httpPutRaw(url, querys, param, new HashMap<>());
+    }
+
+    public static String httpPutRaw(String url, List<JSONObject> querys, JSONObject param, Map<String, String> header) {
+        // 拼接url及参数
+        StringBuilder urlBuilder = new StringBuilder(url);
+        if (null != querys && !querys.isEmpty()) {
+            urlBuilder.append("?");
+            for (JSONObject query : querys) {
+                for (Map.Entry<String, Object> entry : query.entrySet()) {
+                    urlBuilder.append(entry.getKey()).append("=").append(entry.getValue());
+                }
+            }
+            url = urlBuilder.toString();
+        }
+
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpPut put = new HttpPut(url);
+        header.forEach(put::addHeader);
+
+        // json传递
+        try {
+            put.setEntity(new StringEntity(param.toJSONString()));
+        } catch (UnsupportedEncodingException e) {
+            log.error("字符编码不支持：", e);
+            return null;
+        }
+        put.setHeader("Content-type", "application/json");
+        HttpResponse response;
+        try {
+            response = httpClient.execute(put);
         } catch (IOException e) {
             log.error("IO读取异常：", e);
             return null;

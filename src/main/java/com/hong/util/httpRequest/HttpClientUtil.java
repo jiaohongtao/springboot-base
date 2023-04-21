@@ -181,6 +181,10 @@ public class HttpClientUtil {
         return httpGet(url, querys, param, new HashMap<>());
     }
 
+    public static String httpGetAndHeader(String url, List<JSONObject> querys, Map<String, String> header) {
+        return httpGet(url, querys, null, header);
+    }
+
     public static String httpGet(String url, List<JSONObject> querys, JSONObject param, Map<String, String> header) {
         // 拼接url及参数
         StringBuilder urlBuilder = new StringBuilder(url);

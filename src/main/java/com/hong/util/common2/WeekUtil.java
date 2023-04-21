@@ -10,8 +10,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * @author jiaohongtao
@@ -62,6 +64,7 @@ public class WeekUtil {
         // dailySend();
 
         // weekLogin();
+        // weekGet();
     }
 
 
@@ -107,14 +110,31 @@ public class WeekUtil {
     }
 
 
+    public static String weekGet() {
+        // Bearer a6950ebf-3e78-47c5-a4be-38a9d7f052be
+        // http://10.1.3.150:8000/prod-api/auth/login
+        String url = "http://10.1.3.150:8000/prod-api/system/link/show";
+        String authorization = "Bearer a6950ebf-3e78-47c5-a4be-38a9d7f052be";
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", authorization);
+        String result = HttpClientUtil.httpGetAndHeader(url, null, headers);
+        System.out.println(result);
+
+        return "";
+    }
+
     public static String weekLogin() {
         // http://10.1.3.150:8000/prod-api/auth/login
         String url = "http://10.1.3.150:8000/prod-api/auth/login";
         JSONObject body = new JSONObject();
         body.put("code", "1");
-        body.put("password", "123456");
+        body.put("password", "mima212014a");
         body.put("username", "jiaohongtao");
-        body.put("uuid", "819bf0da11724ad9b94fc6a691735c70");
+
+        String uuid = "d59c1d35e41c476991073f769f9ab5be";
+        System.out.println(uuid);
+
+        body.put("uuid", uuid);
 
         /*for (int i = 0; i < 100; i++) {
 

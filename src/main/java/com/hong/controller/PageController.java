@@ -60,4 +60,10 @@ public class PageController {
     public String loveTalk(@PathVariable String pageName) {
         return "page/" + pageName;
     }
+
+    @ApiOperation(value = "toPage", httpMethod = "GET")
+    @GetMapping("/{pageName}")
+    public String toPage(@PathVariable String pageName) {
+        return "page/" + pageName;
+    }
 }

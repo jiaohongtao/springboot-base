@@ -1,4 +1,4 @@
-package com.hong;
+package com.hong.test.bloom;
 
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnels;

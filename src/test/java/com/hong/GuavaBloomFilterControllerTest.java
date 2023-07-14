@@ -1,5 +1,6 @@
 package com.hong;
 
+import com.hong.test.bloom.GuavaBloomFilterController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

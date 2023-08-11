@@ -1,4 +1,4 @@
-package com.hong.util.common2;
+package com.hong.util.pptutil;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hong.bean.Result;
@@ -13,7 +13,6 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * @author jiaohongtao

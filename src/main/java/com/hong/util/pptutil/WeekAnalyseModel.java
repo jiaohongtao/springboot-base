@@ -1,4 +1,4 @@
-package com.hong.util.common2;
+package com.hong.util.pptutil;
 
 import lombok.Data;
 

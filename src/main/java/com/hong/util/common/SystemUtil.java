@@ -1,4 +1,4 @@
-package com.hong.util.common2;
+package com.hong.util.common;
 
 import cn.hutool.core.net.NetUtil;
 import lombok.extern.slf4j.Slf4j;

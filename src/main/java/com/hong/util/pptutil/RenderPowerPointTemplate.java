@@ -1,4 +1,4 @@
-package com.hong.util.common2;
+package com.hong.util.pptutil;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.sl.usermodel.PictureData;
@@ -6,7 +6,6 @@ import org.apache.poi.xslf.usermodel.*;
 
 import java.io.*;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**

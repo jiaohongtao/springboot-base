@@ -2,7 +2,11 @@ package com.hong.study.io.nio;
 
 import com.hong.util.common.FileOperate;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -59,5 +63,28 @@ public class OperateFile {
         Path source = Paths.get(FileOperate.getDeskPath() + "/file.txt");
         Path target = Paths.get(FileOperate.getDeskPath() + "/file2.txt");
         Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
+    }
+
+    public static void copy2() throws IOException {
+        FileInputStream inputStream = new FileInputStream(FileOperate.getDeskPath() + "/file.txt");
+        FileChannel fileChannel1 = inputStream.getChannel();
+
+        // 不存在则创建
+        FileOutputStream outputStream = new FileOutputStream(FileOperate.getDeskPath() + "/file3.txt");
+        FileChannel fileChannel2 = outputStream.getChannel();
+
+        ByteBuffer byteBuffer = ByteBuffer.allocate(5);
+        while (true) {
+            byteBuffer.clear(); // 清空buffer
+            int read = fileChannel1.read(byteBuffer); // 返回值表示读取的数据是多少
+            if (read == -1) { // 表示读完
+                break;
+            }
+            byteBuffer.flip();
+            fileChannel2.write(byteBuffer);
+        }
+
+        inputStream.close();
+        outputStream.close();
     }
 }

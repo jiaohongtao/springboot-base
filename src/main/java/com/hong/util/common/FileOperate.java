@@ -306,6 +306,16 @@ public class FileOperate {
         return map;
     }
 
+    /**
+     * 获取桌面路径
+     *
+     * @return 桌面路径
+     */
+    public static String getDeskPath() {
+        // 获取桌面路径
+        return System.getProperty("user.home") + "/Desktop";
+    }
+
     public static void main(String[] args) throws Exception {
         // getStaticFileMap("myself").forEach((k, v) -> System.out.println(k + " " + v));
 

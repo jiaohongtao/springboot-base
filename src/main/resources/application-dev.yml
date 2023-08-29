@@ -33,11 +33,11 @@ spring:
     allow-circular-references: true
 
   datasource:
-    url: jdbc:mysql://localhost:13306/springboot?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://10.1.1.174:4000/test-tidb?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: 123456
-    type: com.mysql.cj.jdbc.MysqlConnectionPoolDataSource
+    password:
+    type: com.zaxxer.hikari.HikariDataSource
 
   # 漂亮打印Spring Boot Actuator端点的JSON输出, 不只是 actuator 使用
   jackson:

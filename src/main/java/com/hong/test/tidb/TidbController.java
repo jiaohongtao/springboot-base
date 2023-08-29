@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * href: https://www.dandelioncloud.cn/article/details/1607178892362334209
+ */
 @RequestMapping("/tidb")
 @RestController
 public class TidbController {

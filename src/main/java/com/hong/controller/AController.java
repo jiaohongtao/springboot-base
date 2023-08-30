@@ -1,5 +1,7 @@
 package com.hong.controller;
 
+import com.hong.annotation.Log;
+import com.hong.enums.JhtService;
 import com.hong.service.interf.AService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,6 +36,7 @@ public class AController {
     @Resource(name = "aTwoServiceImpl")
     AService twoService;
 
+    @Log(module = JhtService.BASE, target = "测试", operation = "获取one")
     @GetMapping("one")
     @ApiOperation(value = "one", httpMethod = "GET")
     public String aOneService() {

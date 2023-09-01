@@ -28,8 +28,11 @@ public class WeekUtil {
 
         String path;
         try {
-            File file = new File(WEEK_CONTENT_DIR + "WeekAll.txt");
-            Map<String, String> contentMap = RenderPowerPointTemplate.weekContentRead(file);
+            // File file = new File(WEEK_CONTENT_DIR + "WeekAll.txt");
+            File file = new File(WEEK_CONTENT_DIR + "WeekAll2.txt");
+            // Map<String, String> contentMap = RenderPowerPointTemplate.weekContentRead(file);
+            // 使用 === 分割
+            Map<String, String> contentMap = RenderPowerPointTemplate.weekContentRead2(file);
             InputStream inputStream = new FileInputStream(WEEK_CONTENT_DIR + "周报Template.pptx");
 
             path = RenderPowerPointTemplate.renderPowerPointTemplate(inputStream, contentMap, WEEK_CONTENT_DIR);

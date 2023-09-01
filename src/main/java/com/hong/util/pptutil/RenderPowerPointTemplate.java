@@ -222,8 +222,35 @@ public class RenderPowerPointTemplate extends BasePowerPointFileUtil {
 
     }
 
+    public static Map<String, String> weekContentRead2(File file) {
+        Map<String, String> content = new HashMap<>();
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+            String len;
+            StringBuilder stringBuilder = new StringBuilder();
+            while ((len = bufferedReader.readLine()) != null) {
+                stringBuilder.append(len);
+                if (!len.contains(":") && !len.contains("===")) {
+                    stringBuilder.append("\n");
+                }
+            }
+
+            String contentStr = stringBuilder.toString();
+            String[] splitContent = contentStr.split("===");
+            // 循环每一项
+            for (String split : splitContent) {
+                int location = split.indexOf(":");
+                String name = split.substring(0, location);
+                String value = split.substring(location + 1);
+                content.put(name, value);
+            }
+        } catch (IOException e) {
+            log.error("IOException: ", e);
+        }
+        return content;
+    }
+
     public static void main(String[] args) throws FileNotFoundException {
-        try {
+        /*try {
             File file = new File(WEEK_CONTENT_DIR + "WeekAll.txt");
             Map<String, String> contentMap = weekContentRead(file);
             InputStream inputStream = new FileInputStream(WEEK_CONTENT_DIR + "周报Template.pptx");
@@ -231,6 +258,13 @@ public class RenderPowerPointTemplate extends BasePowerPointFileUtil {
             renderPowerPointTemplate(inputStream, contentMap, WEEK_CONTENT_DIR);
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
+
+        File file = new File(WEEK_CONTENT_DIR + "WeekAll2.txt");
+        Map<String, String> map = weekContentRead2(file);
+        map.forEach((k, v) -> {
+            System.out.println(k);
+            System.out.println(v);
+        });
     }
 }

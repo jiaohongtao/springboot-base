@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * 1.填写连接信息
- * 2.jdk导入证书
+ * 2.jdk导入证书(keytool -import -file ca.crt -keystore ./cacerts -alias server)
  * 3.测试连接获取信息
  * href: https://codeleading.com/article/2264795977
  */

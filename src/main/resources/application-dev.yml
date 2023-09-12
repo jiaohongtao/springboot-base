@@ -33,7 +33,8 @@ spring:
     allow-circular-references: true
 
   datasource:
-    url: jdbc:mysql://localhost:13306/springboot?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+    # 本地 host 配置数据库地址映射，eg：10.1.1.10 jiaohongtao.db
+    url: jdbc:mysql://jiaohongtao.db:13306/springboot?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 123456

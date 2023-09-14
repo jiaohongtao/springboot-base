@@ -1,6 +1,4 @@
-package com.hong.util.freeipa;
-
-import com.alibaba.fastjson.JSONObject;
+package com.hong.util.ldap;
 
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
@@ -20,6 +18,7 @@ import java.util.List;
  * href: https://codeleading.com/article/2264795977
  */
 public class LdapUtil {
+
     public static void main(String[] args) throws NamingException {
         // TLS_CACERTDIR   /etc/openldap/certs
         //
@@ -37,13 +36,38 @@ public class LdapUtil {
         String root = "uid=admin,cn=users,cn=accounts,dc=hadoop,dc=com";  // 用户
         String pwd = "12345678";  // pwd
 
-        LdapContext ctx = ldapConnect(url, root, pwd);//集团 ldap认证
-        List<LdapUser> users = readLdap(ctx, basedn);//获取集团ldap中用户信息
-        users.forEach(user -> System.out.println(JSONObject.toJSONString(user)));
 
+        url = "ldaps://sdp246.hadoop.com:636";
+        basedn = "dc=hadoop,dc=com";  // basedn
+        root = "uid=admin,cn=users,cn=accounts,dc=hadoop,dc=com";  // 用户
+        pwd = "mima123456";  // pwd
+
+        LdapContext ctx = ldapConnect(url, root, pwd);//集团 ldap认证
+
+        /*List<LdapUser> users = readLdap(ctx, basedn);//获取集团ldap中用户信息
+        users.forEach(user -> System.out.println(JSONObject.toJSONString(user)));*/
+
+        // getAll(ctx, basedn);
+
+        // 获取一个，但是出来两个
+        /*List<LdapUser> admin = getUser("admin", ctx, basedn);
+        admin.forEach(a -> System.out.println(JSONObject.toJSONString(a)));*/
+
+//        addUser(ctx);
+
+        String cn = "jiaoadd0011";
+        String dn = "uid=" + cn + ",cn=users,cn=accounts,dc=hadoop,dc=com";
+        delete(dn, ctx);
         if (ctx != null) {
             ctx.close();
         }
+    }
+
+    public static void addUser(LdapContext ctx) {
+        LdapUser ldapUser = new LdapUser("jiaoadd0011", "焦", "1683900001", "12345678",
+                "焦", "jiaoadd0011@hadoop.com", "添加的", "1683900001", "1683900001");
+        boolean b = addUser(ldapUser, ctx);
+        System.out.println(b);
     }
 
     /**
@@ -127,7 +151,7 @@ public class LdapUtil {
         objclassSet.add("top");
         objclassSet.add("shadowAccount");
         attrsbu.put(objclassSet);
-        attrsbu.put("uid", lu.getUid());//显示账号
+        // attrsbu.put("uid", lu.getUid());//显示账号
         attrsbu.put("sn", lu.getSn());//显示姓名
         attrsbu.put("cn", lu.getCn());//显示账号
         attrsbu.put("gecos", lu.getCn());//显示账号
@@ -136,11 +160,14 @@ public class LdapUtil {
         attrsbu.put("mail", lu.getMail());//显示邮箱
         attrsbu.put("homeDirectory", "/home/" + lu.getCn());//显示home地址
         attrsbu.put("loginShell", "/bin/bash");//显示shell方式
-        attrsbu.put("uidNumber", strToint(lu.getCn()));//显示用户id
-        attrsbu.put("gidNumber", strToint(lu.getCn()));//显示组id
+        /*attrsbu.put("uidNumber", strToint(lu.getUidNum()));//显示用户id
+        attrsbu.put("gidNumber", strToint(lu.getGidNum()));//显示组id*/
+        attrsbu.put("uidNumber", lu.getUidNum());//显示用户id
+        attrsbu.put("gidNumber", lu.getGidNum());//显示组id
 
         try {
-            String dn = "uid=" + lu.getCn() + ",ou=People,dc=tcjf,dc=com";
+            // String dn = "uid=" + lu.getCn() + ",ou=People,dc=tcjf,dc=com";
+            String dn = "uid=" + lu.getCn() + ",cn=users,cn=accounts,dc=hadoop,dc=com";
             System.out.println(dn);
             ctx.createSubcontext(dn, attrsbu);
             System.out.println("添加用户成功");
@@ -200,6 +227,105 @@ public class LdapUtil {
             e.printStackTrace();
             return false;
         }
+    }
+
+    /**
+     * 获取用户信息
+     *
+     * @param ctx
+     * @param basedn
+     * @return
+     */
+    public static List<LdapUser> getUser(String username, LdapContext ctx, String basedn) {
+
+        List<LdapUser> lm = new ArrayList<>();
+        try {
+            if (ctx != null) {
+                //过滤条件
+                String filter = "(&(objectClass=*)(uid=" + username + "))";
+                String[] attrPersonArray = {"uid", "userPassword", "displayName", "cn", "sn", "mail", "description"};
+                SearchControls searchControls = new SearchControls();//搜索控件
+                searchControls.setSearchScope(2);//搜索范围
+                searchControls.setReturningAttributes(attrPersonArray);
+                //1.要搜索的上下文或对象的名称；2.过滤条件，可为null，默认搜索所有信息；3.搜索控件，可为null，使用默认的搜索控件
+                NamingEnumeration<SearchResult> answer = ctx.search(basedn, filter, searchControls);
+                while (answer.hasMore()) {
+                    SearchResult result = answer.next();
+                    NamingEnumeration<? extends Attribute> attrs = result.getAttributes().getAll();
+                    LdapUser lu = new LdapUser();
+                    while (attrs.hasMore()) {
+                        Attribute attr = attrs.next();
+                        if ("userPassword".equals(attr.getID())) {
+                            Object value = attr.get();
+                            lu.setUserPassword(new String((byte[]) value));
+                        } else if ("uid".equals(attr.getID())) {
+                            lu.setUid(attr.get().toString());
+                        } else if ("displayName".equals(attr.getID())) {
+                            lu.setDisplayName(attr.get().toString());
+                        } else if ("cn".equals(attr.getID())) {
+                            lu.setCn(attr.get().toString());
+                        } else if ("sn".equals(attr.getID())) {
+                            lu.setSn(attr.get().toString());
+                        } else if ("mail".equals(attr.getID())) {
+                            lu.setMail(attr.get().toString());
+                        } else if ("description".equals(attr.getID())) {
+                            lu.setDescription(attr.get().toString());
+                        }
+                    }
+                    if (lu.getUid() != null) {
+                        lm.add(lu);
+                    }
+
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("获取用户信息异常:");
+            e.printStackTrace();
+        }
+
+        return lm;
+    }
+
+    /**
+     * 获取用户信息
+     *
+     * @param ctx
+     * @param basedn
+     * @return
+     */
+    public static List<LdapUser> getAll(LdapContext ctx, String basedn) {
+
+        List<LdapUser> lm = new ArrayList<>();
+        try {
+            if (ctx != null) {
+                //过滤条件
+                String filter = "(&(objectClass=*)(uid=*))";
+                String[] attrPersonArray = {"uid", "userPassword", "displayName", "cn", "sn", "mail", "description"};
+                SearchControls searchControls = new SearchControls();//搜索控件
+                searchControls.setSearchScope(2);//搜索范围
+                searchControls.setReturningAttributes(attrPersonArray);
+                //1.要搜索的上下文或对象的名称；2.过滤条件，可为null，默认搜索所有信息；3.搜索控件，可为null，使用默认的搜索控件
+                NamingEnumeration<SearchResult> search = ctx.search(basedn, filter, searchControls);
+                while (search.hasMore()) {
+                    SearchResult next = search.next();
+                    NamingEnumeration<? extends Attribute> all = next.getAttributes().getAll();
+
+                    StringBuilder user = new StringBuilder();
+
+                    while (all.hasMore()) {
+                        Attribute next1 = all.next();
+                        user.append(next1.getID()).append(": ").append(next1.get()).append(" ");
+                    }
+                    System.out.println(user);
+                    System.out.println("---------------------------------------------------");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("获取用户信息异常:");
+            e.printStackTrace();
+        }
+
+        return lm;
     }
 
     /**
@@ -270,11 +396,11 @@ public class LdapUtil {
             return "-1";
         }
         char[] a = m.toCharArray();
-        StringBuffer sbu = new StringBuffer();
+        StringBuilder sbu = new StringBuilder();
         for (char c : a) {
             sbu.append((int) c);
         }
-        System.out.println(sbu.toString());
+        System.out.println(sbu);
         return sbu.toString();
     }
 

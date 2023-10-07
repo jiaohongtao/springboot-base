@@ -1,0 +1,27 @@
+// 调用接口权限错误，例如 Cookie 失败（Cookie 失效等）
+{
+    "principal":"apiadd003@HADOOP.COM",
+    "error":{
+        "code":2100,
+        "data":{
+            "info":" Invalid credentials"
+        },
+        "name":"ACIError",
+        "message":"访问受限： Invalid credentials"
+    },
+    "version":"4.6.8"
+}
+
+√ addUser
+√ changePassword
+delUser
+    {"preserve":"false", "version":"2.237"}
+√ disableUser
+√ enableUser
+√ modifyUser 自己修改/管理员修改
+√ passwd
+√ resetPasswd
+    {"method":"passwd","params":[[""],{"password":"123456", "version":"2.237"}]}
+√ searchAll
+√ searchUser
+√ showUser

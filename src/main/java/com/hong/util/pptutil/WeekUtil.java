@@ -125,7 +125,7 @@ public class WeekUtil {
         return "";
     }
 
-    public static String weekLogin() {
+    public static String login() {
         // http://10.1.3.150:8000/prod-api/auth/login
         String url = "http://10.1.3.150:8000/prod-api/auth/login";
         JSONObject body = new JSONObject();

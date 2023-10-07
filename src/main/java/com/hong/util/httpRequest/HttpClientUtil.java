@@ -261,6 +261,14 @@ public class HttpClientUtil {
     }
 
     public static String httpPostRaw(String url, List<JSONObject> querys, JSONObject param, Map<String, String> header) {
+        return httpPostData(url, querys, param, header);
+    }
+
+    public static <T> String httpPostData(String url, List<JSONObject> querys, T param) {
+        return httpPostData(url, querys, param, new HashMap<>());
+    }
+
+    public static <T> String httpPostData(String url, List<JSONObject> querys, T param, Map<String, String> header) {
         // 拼接url及参数
         StringBuilder urlBuilder = new StringBuilder(url);
         if (null != querys && !querys.isEmpty()) {
@@ -278,12 +286,7 @@ public class HttpClientUtil {
         header.forEach(post::addHeader);
 
         // json传递
-        try {
-            post.setEntity(new StringEntity(param.toJSONString()));
-        } catch (UnsupportedEncodingException e) {
-            log.error("字符编码不支持：", e);
-            return null;
-        }
+        post.setEntity(new StringEntity(JSONObject.toJSONString(param), StandardCharsets.UTF_8));
         post.setHeader("Content-type", "application/json");
         HttpResponse response;
         try {

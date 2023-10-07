@@ -20,4 +20,5 @@ public class Constant {
     public static final String CLIENT_ID = "clientId";
 
 
+    public static final String DESKTOP_PATH = "C:\\Users\\jx\\Desktop";
 }

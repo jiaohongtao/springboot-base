@@ -16,26 +16,26 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Result {
+public class Result<T> {
     private boolean success;
-    private Object data;
+    private T data;
     private String message;
     // private int code;
 
-    public static Result success(Object data) {
-        return new Result(true, data, "操作成功");
+    public static <T> Result<T> success(T data) {
+        return success(data, "操作成功");
     }
 
-    public static Result success(Object data, String message) {
-        return new Result(true, data, message);
+    public static <T> Result<T> success(T data, String message) {
+        return new Result<>(true, data, message);
     }
 
-    public static Result failed(String message) {
-        return new Result(false, null, message);
+    public static <T> Result<T> failed(String message) {
+        return failed(null, message);
     }
 
-    public static Result failed(Object data, String message) {
-        return new Result(false, data, message);
+    public static <T> Result<T> failed(T data, String message) {
+        return new Result<>(false, data, message);
     }
 
     public boolean isFailed() {

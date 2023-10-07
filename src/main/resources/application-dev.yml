@@ -31,21 +31,10 @@ spring:
   # https://blog.csdn.net/qq_45151158/article/details/123113935
   main:
     allow-circular-references: true
-
-  datasource:
-    # 本地 host 配置数据库地址映射，eg：10.1.1.10 jiaohongtao.db
-    url: jdbc:mysql://jiaohongtao.db:13306/springboot?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: 123456
-    type: com.mysql.cj.jdbc.MysqlConnectionPoolDataSource
-
   # 漂亮打印Spring Boot Actuator端点的JSON输出, 不只是 actuator 使用
   jackson:
     serialization:
       indent_output: true
-my:
-  name: jiaohongtao
 
 # actuator
 management:
@@ -64,8 +53,13 @@ management:
       exposure:
         include: '*'
 
-# mybatis-plus相关配置
-mybatis-plus:
-  configuration:
-    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+---
+# database
+spring:
+  datasource:
+    # 本地 host 配置数据库地址映射，eg：10.1.1.10 jiaohongtao.db
+    url: jdbc:mysql://jiaohongtao.db:13306/springboot?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    type: com.mysql.cj.jdbc.MysqlConnectionPoolDataSource

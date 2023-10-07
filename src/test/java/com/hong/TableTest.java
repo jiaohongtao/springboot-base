@@ -1,9 +1,9 @@
 package com.hong;
 
 import cn.hutool.json.JSONUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.hong.bean.Table;
+import com.hong.bean.TestTable;
 import com.hong.dao.TableMapper;
+import com.mybatisflex.core.query.QueryWrapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+
+import static com.hong.bean.table.TestTableTableDef.TEST_TABLE;
 
 /**
  * @author jiaohongtao
@@ -27,9 +29,9 @@ public class TableTest {
 
     @Test
     public void test() {
-        /*List<Table> all = mapper.all();*/
-        // List<Table> all = mapper.selectList(null);
-        List<Table> all = mapper.selectList(new QueryWrapper<>());
+        QueryWrapper query = QueryWrapper.create().select().where(TEST_TABLE.ID.eq(1));
+        List<TestTable> all = mapper.selectListByQuery(query);
+        // List<TestTable> all = mapper.selectAll();
         all.forEach(table -> System.out.println(JSONUtil.toJsonStr(table)));
     }
 }

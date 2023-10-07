@@ -1,5 +1,6 @@
 package com.hong.util.common;
 
+import cn.hutool.core.io.FileUtil;
 import com.hong.bean.Constant;
 import com.hong.bean.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,30 @@ public class FileOperate {
     public static final String STATIC_PRE = "static/";
     public static final String SPLIT_ONE = " ";
     public static final String IGNORE_PRE_ONE = "#";
+
+
+    public static String upload(String path, String name, byte[] content) {
+        return upload(path, name, null, content);
+    }
+
+    /**
+     * 上传文件
+     *
+     * @param path    存储路径
+     * @param name    原名称
+     * @param rename  重命名
+     * @param content 文件内容
+     * @return 文件路径
+     */
+    public static String upload(String path, String name, String rename, byte[] content) {
+        if (StringUtils.isNotBlank(rename)) {
+            name = rename;
+        }
+        String filePath = path + name;
+        // 执行写入
+        File file = FileUtil.writeBytes(content, filePath);
+        return file.getName();
+    }
 
     /**
      * 获取文件绝对路径

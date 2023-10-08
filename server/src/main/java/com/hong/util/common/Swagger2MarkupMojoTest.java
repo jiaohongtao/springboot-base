@@ -11,7 +11,6 @@ package com.hong.util.common;
 import io.github.swagger2markup.Swagger2MarkupProperties;
 import io.github.swagger2markup.markup.builder.MarkupLanguage;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.maven.plugin.MojoFailureException;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +19,6 @@ import org.mockito.stubbing.Answer;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +37,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class Swagger2MarkupMojoTest {
 
     private static final String RESOURCES_DIR = "src/test/resources";
-    private static final String SWAGGER_DIR = "/docs/swagger";
+    private static final String SWAGGER_DIR = "/src/test/resources/docs/swagger";
     private static final String INPUT_DIR = RESOURCES_DIR + SWAGGER_DIR;
     private static final String SWAGGER_OUTPUT_FILE = "swagger";
     private static final String SWAGGER_INPUT_FILE = "swagger.json";

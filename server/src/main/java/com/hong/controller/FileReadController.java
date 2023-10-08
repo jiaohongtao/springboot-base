@@ -1,6 +1,5 @@
 package com.hong.controller;
 
-import cn.hutool.core.util.IdcardUtil;
 import com.hong.bean.Result;
 import com.hong.util.common.IDCardUtil;
 import io.swagger.annotations.Api;
@@ -13,10 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;

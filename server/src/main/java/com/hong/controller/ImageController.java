@@ -24,7 +24,7 @@ import java.io.IOException;
 @Controller
 @Api(tags = "图片转pdf")
 @RequestMapping("/image")
-public class PdfController {
+public class ImageController {
 
     @ApiOperation(value = "转换", httpMethod = "POST")
     @PostMapping("/to/pdf")
